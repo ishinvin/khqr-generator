@@ -25,3 +25,10 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Deploy
+```sh
+git add dist -f
+git commit -m "some message"       
+git subtree push --prefix dist origin gh-pages
+```
