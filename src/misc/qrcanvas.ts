@@ -2,8 +2,41 @@ import QRCode from 'qrcode'
 import khqrFrame from '@/assets/qrstand.svg'
 import NunitoSansBold from '@/assets/NunitoSans-Bold.ttf'
 import NunitoSansRegular from '@/assets/NunitoSans-Regular.ttf'
-import usdImg from '@/assets/usd.svg'
-import khrImg from '@/assets/khr.svg'
+
+import BND from '@/assets/ccy/bnd.svg'
+import CNY from '@/assets/ccy/cny.svg'
+import IDR from '@/assets/ccy/idr.svg'
+import INR from '@/assets/ccy/inr.svg'
+import KHR from '@/assets/ccy/khr.svg'
+import LAK from '@/assets/ccy/lak.svg'
+import MMK from '@/assets/ccy/mmk.svg'
+import MYR from '@/assets/ccy/myr.svg'
+import PHP from '@/assets/ccy/php.svg'
+import SGD from '@/assets/ccy/sgd.svg'
+import THB from '@/assets/ccy/thb.svg'
+import USD from '@/assets/ccy/usd.svg'
+import VND from '@/assets/ccy/vnd.svg'
+
+import { CURRENCY } from 'ts-khqr'
+
+const getCurrency = (c: string) => {
+  const ccy: Record<string, string> = {
+    [CURRENCY.BND]: BND,
+    [CURRENCY.CNY]: CNY,
+    [CURRENCY.IDR]: IDR,
+    [CURRENCY.INR]: INR,
+    [CURRENCY.KHR]: KHR,
+    [CURRENCY.LAK]: LAK,
+    [CURRENCY.MMK]: MMK,
+    [CURRENCY.MYR]: MYR,
+    [CURRENCY.PHP]: PHP,
+    [CURRENCY.SGD]: SGD,
+    [CURRENCY.THB]: THB,
+    [CURRENCY.USD]: USD,
+    [CURRENCY.VND]: VND
+  }
+  return ccy[c]
+}
 
 const loadImage = (url: string): Promise<HTMLImageElement> => {
   return new Promise((resolve, reject) => {
@@ -16,7 +49,7 @@ const loadImage = (url: string): Promise<HTMLImageElement> => {
 
 export class QRCanvasFactory {
   private qrText: string
-  private currency: 'KHR' | 'USD'
+  private currency: string
   private bakongAccount: string
   private labelName: string
 
@@ -24,12 +57,7 @@ export class QRCanvasFactory {
   private _regularFont = new FontFace('NunitoSansRegular', `url(${NunitoSansRegular})`)
   private _boldFont = new FontFace('NunitoSansBold', `url(${NunitoSansBold})`)
 
-  constructor(
-    qrText: string,
-    currency: 'KHR' | 'USD',
-    labelName: string,
-    bakongAccount: string = ''
-  ) {
+  constructor(qrText: string, currency: string, labelName: string, bakongAccount: string = '') {
     this.qrText = qrText
     this.currency = currency
     this.bakongAccount = bakongAccount
@@ -60,9 +88,9 @@ export class QRCanvasFactory {
     context.drawImage(qrImage, offsetW, offsetH)
 
     // Draw currency in the middle of QR
-    if (['KHR', 'USD'].includes(this.currency)) {
+    if (Object.values(CURRENCY).includes(this.currency)) {
       const ccyWidth = qrSize * 0.2
-      const ccyImage = await loadImage(this.currency === 'KHR' ? khrImg : usdImg)
+      const ccyImage = await loadImage(getCurrency(this.currency))
       context.drawImage(
         ccyImage,
         offsetW + qrSize / 2 - ccyWidth / 2,

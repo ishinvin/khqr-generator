@@ -1,9 +1,5 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg fill="#ffffff" height="148px" width="148px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-118.56 -118.56 731.12 731.12" xml:space="preserve" stroke="#ffffff" stroke-width="22.23">
-<g id="SVGRepo_bgCarrier" stroke-width="0">
-<rect x="-118.56" y="-118.56" width="731.12" height="731.12" rx="365.56" fill="#000000" strokewidth="0"/>
-</g>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <g> <path d="M292.945,241.238c28.929-21.001,47.907-55.983,47.907-95.509c0-59.703-43.277-109.027-98.752-115.5V0h-30v29.5h-78.933v435 H212.1V494h30v-29.5h7.571c61.294,0,111.161-52.128,111.161-116.203C360.833,300.25,332.803,258.918,292.945,241.238z M310.853,145.728c0,43.052-29.869,78.832-68.752,85.195V60.508C280.984,66.873,310.853,102.664,310.853,145.728z M163.167,59.5 H212.1v172.569h-48.933V59.5z M163.167,434.5V262.069H212.1V434.5H163.167z M249.671,434.5H242.1V262.069h7.571 c44.752,0,81.161,38.682,81.161,86.228C330.833,395.83,294.424,434.5,249.671,434.5z"/> </g> </g>
-</svg>
+<svg width="148" height="149" viewBox="0 0 148 149" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="74.0625" cy="74.3535" r="73.9375" fill="white" />
+    <circle cx="74.0609" cy="74.3522" r="62.3392" fill="black" />
+    <text x="40" y="110" fill="white" font-family="Arial" font-weight="bold" font-size="95px">฿</text>
+</svg>

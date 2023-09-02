@@ -9,9 +9,15 @@ import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 const khqrFrame = ref('')
 const visible = ref(false)
-const tagOptions = Object.entries(TAG).map(([k, v]) => ({ name: k, value: v }))
-const ccyOptions = Object.entries(CURRENCY).map(([k, v]) => ({ name: k, value: v }))
-const countryOptions = Object.entries(COUNTRY).map(([k, v]) => ({ name: k, value: v }))
+const tagOptions = Object.entries(TAG)
+  .map(([k, v]) => ({ name: k, value: v }))
+  .sort((a, b) => a.name.localeCompare(b.name))
+const ccyOptions = Object.entries(CURRENCY)
+  .map(([k, v]) => ({ name: k, value: v }))
+  .sort((a, b) => a.name.localeCompare(b.name))
+const countryOptions = Object.entries(COUNTRY)
+  .map(([k, v]) => ({ name: k, value: v }))
+  .sort((a, b) => a.name.localeCompare(b.name))
 
 const schema = yup.object({
   tag: yup.string().required().label('Tag'),
