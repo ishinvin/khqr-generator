@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 </script>
 
@@ -8,15 +8,16 @@ import HelloWorld from './components/HelloWorld.vue'
     <div class="wrapper">
       <HelloWorld msg="KHQR Generator" />
 
-      <nav>
-        <RouterLink to="/">KHQR</RouterLink>
-        <RouterLink to="/bkcb">BKCB</RouterLink>
-      </nav>
+      <!-- <nav>
+        <RouterLink to="/">Home</RouterLink>
+      </nav> -->
     </div>
   </header>
 
-  <main class="border">
-    <RouterView />
+  <main class="content-wrapper">
+    <div class="w-full">
+      <RouterView />
+    </div>
   </main>
 </template>
 
@@ -24,6 +25,10 @@ import HelloWorld from './components/HelloWorld.vue'
 header {
   line-height: 1.5;
   max-height: 100vh;
+}
+
+header .wrapper {
+  margin-bottom: 50px;
 }
 
 nav {
@@ -34,7 +39,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-primary);
+  color: var(--primary-color);
 }
 
 nav a.router-link-exact-active:hover {
@@ -75,10 +80,13 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 
-  .border {
+  .content-wrapper {
     border-left: 1px solid var(--color-border);
-    padding-left: 24px;
-    padding-right: 16px;
+    padding: 16px 16px 32px 16px;
+    overflow-y: scroll;
+    place-items: center;
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 </style>
