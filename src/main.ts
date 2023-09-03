@@ -14,6 +14,7 @@ import InputNumber from 'primevue/inputnumber'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Dialog from 'primevue/dialog'
+import ProgressSpinner from 'primevue/progressspinner'
 
 import App from './App.vue'
 import router from './router'
@@ -32,5 +33,6 @@ app.component('VAccordion', Accordion)
 app.component('VAccordionTab', AccordionTab)
 app.component('VDialog', Dialog)
 app.component('VToast', Toast)
+app.component('VProgressSpinner', ProgressSpinner)
 
 app.mount('#app')

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { QRCanvasFactory } from '@/misc/qrcanvas'
+import { sleep } from '@/misc/sleep'
 import { COUNTRY, CURRENCY, KHQR, TAG } from 'ts-khqr'
 import { useForm } from 'vee-validate'
 import { computed, ref } from 'vue'
@@ -9,6 +10,7 @@ import { useToast } from 'primevue/usetoast'
 const toast = useToast()
 const khqrFrame = ref('')
 const visible = ref(false)
+const loading = ref(false)
 const tagOptions = Object.entries(TAG)
   .map(([k, v]) => ({ name: k, value: v }))
   .sort((a, b) => a.name.localeCompare(b.name))
@@ -85,43 +87,54 @@ const upiMerchantAccount = defineComponentBinds('upiMerchantAccount')
 const ccy = computed(() => currency.value.modelValue)
 
 const onSubmit = handleSubmit(async (values) => {
-  const result = KHQR.generate({
-    tag: values.tag,
-    accountID: values.accountID,
-    merchantName: values.merchantName,
-    // optional
-    merchantID: values.merchantID,
-    acquiringBank: values.acquiringBank,
-    merchantCity: values.merchantCity,
-    currency: values.currency,
-    amount: values.amount,
-    countryCode: values.countryCode,
-    additionalData: {
-      mobileNumber: values.mobileNumber,
-      billNumber: values.billNumber,
-      storeLabel: values.storeLabel,
-      terminalLabel: values.terminalLabel,
-      purposeOfTransaction: values.purposeOfTransaction
-    },
-    languageData: {
-      languagePreference: values.languagePreference,
-      merchantNameAlternateLanguage: values.merchantNameAlternateLanguage,
-      merchantCityAlternateLanguage: values.merchantCityAlternateLanguage
-    },
-    upiMerchantAccount: values.upiMerchantAccount
-  })
+  loading.value = true
+  try {
+    await sleep(1000)
 
-  if (result.data) {
-    const qrCanvas = new QRCanvasFactory(
-      result.data,
-      values.currency,
-      values.merchantName,
-      values.accountID
-    )
-    khqrFrame.value = await qrCanvas.createQR()
-    visible.value = true
-  } else if (result.status && result.status.code === 1) {
-    toast.add({ severity: 'error', summary: 'Error', detail: result.status.message, life: 3000 })
+    const result = KHQR.generate({
+      tag: values.tag,
+      accountID: values.accountID,
+      merchantName: values.merchantName,
+      // optional
+      merchantID: values.merchantID,
+      acquiringBank: values.acquiringBank,
+      merchantCity: values.merchantCity,
+      currency: values.currency,
+      amount: values.amount,
+      countryCode: values.countryCode,
+      additionalData: {
+        mobileNumber: values.mobileNumber,
+        billNumber: values.billNumber,
+        storeLabel: values.storeLabel,
+        terminalLabel: values.terminalLabel,
+        purposeOfTransaction: values.purposeOfTransaction
+      },
+      languageData: {
+        languagePreference: values.languagePreference,
+        merchantNameAlternateLanguage: values.merchantNameAlternateLanguage,
+        merchantCityAlternateLanguage: values.merchantCityAlternateLanguage
+      },
+      upiMerchantAccount: values.upiMerchantAccount
+    })
+
+    if (result.data) {
+      const qrCanvas = new QRCanvasFactory(
+        result.data,
+        values.currency,
+        values.merchantName,
+        values.accountID
+      )
+      khqrFrame.value = await qrCanvas.createQR()
+      visible.value = true
+    } else if (result.status && result.status.code === 1) {
+      toast.add({ severity: 'error', summary: 'Error', detail: result.status.message, life: 3000 })
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      toast.add({ severity: 'error', summary: 'Error', detail: e.message, life: 3000 })
+    }
+  } finally {
+    loading.value = false
   }
 })
 
@@ -448,6 +461,28 @@ const onClose = () => {
       <VButton label="Download" icon="pi pi-download" @click="onDownload" :disabled="!khqrFrame" />
       <VButton label="Close" class="p-button-outlined" icon="pi pi-times" @click="onClose" />
     </template>
+  </VDialog>
+
+  <VDialog
+    v-model:visible="loading"
+    :showHeader="false"
+    :closable="false"
+    :modal="true"
+    :style="{ background: 'none', boxShadow: 'none', border: 'none' }"
+    :contentStyle="{
+      background: 'rgba(255, 255, 255, 0.8)',
+      borderRadius: '5px',
+      overflow: 'hidden'
+    }"
+    contentClass="text-center text-primary"
+  >
+    <VProgressSpinner
+      style="width: 50px; height: 50px"
+      strokeWidth="4"
+      fill="rgba(0, 0, 0, 0)"
+      animationDuration="1s"
+    />
+    <div>processing ...</div>
   </VDialog>
 
   <VToast position="bottom-center" />
