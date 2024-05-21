@@ -119,7 +119,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     if (result.data) {
       const qrCanvas = new QRCanvasFactory(
-        result.data,
+        result.data.qr,
         values.currency,
         values.merchantName,
         values.accountID

@@ -16,7 +16,7 @@
     "primeicons": "^6.0.1",
     "primevue": "^3.32.2",
     "qrcode": "^1.5.3",
-    "ts-khqr": "^2.0.3",
+    "ts-khqr": "^2.1.1",
     "vee-validate": "^4.11.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",

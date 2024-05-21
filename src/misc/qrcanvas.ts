@@ -16,6 +16,9 @@ import SGD from '@/assets/ccy/sgd.svg'
 import THB from '@/assets/ccy/thb.svg'
 import USD from '@/assets/ccy/usd.svg'
 import VND from '@/assets/ccy/vnd.svg'
+import EUR from '@/assets/ccy/eur.svg'
+import CZK from '@/assets/ccy/czk.svg'
+import AUD from '@/assets/ccy/aud.svg'
 import { CURRENCY } from 'ts-khqr'
 
 const ccy: Record<string, string> = {
@@ -31,7 +34,10 @@ const ccy: Record<string, string> = {
   [CURRENCY.SGD]: SGD,
   [CURRENCY.THB]: THB,
   [CURRENCY.USD]: USD,
-  [CURRENCY.VND]: VND
+  [CURRENCY.VND]: VND,
+  [CURRENCY.EUR]: EUR,
+  [CURRENCY.CZK]: CZK,
+  [CURRENCY.AUD]: AUD,
 }
 
 const loadImage = (url: string): Promise<HTMLImageElement> => {
