@@ -1,43 +1,43 @@
 import QRCode from 'qrcode'
-import khqrFrame from '@/assets/qrstand.svg'
+import khqrFrame from '@/assets/qrstand.png'
 import NunitoSansBold from '@/assets/NunitoSans-Bold.ttf'
 import NunitoSansRegular from '@/assets/NunitoSans-Regular.ttf'
 
-import BND from '@/assets/ccy/bnd.svg'
-import CNY from '@/assets/ccy/cny.svg'
-import IDR from '@/assets/ccy/idr.svg'
-import INR from '@/assets/ccy/inr.svg'
+// import BND from '@/assets/ccy/bnd.svg'
+// import CNY from '@/assets/ccy/cny.svg'
+// import IDR from '@/assets/ccy/idr.svg'
+// import INR from '@/assets/ccy/inr.svg'
 import KHR from '@/assets/ccy/khr.svg'
-import LAK from '@/assets/ccy/lak.svg'
-import MMK from '@/assets/ccy/mmk.svg'
-import MYR from '@/assets/ccy/myr.svg'
-import PHP from '@/assets/ccy/php.svg'
-import SGD from '@/assets/ccy/sgd.svg'
-import THB from '@/assets/ccy/thb.svg'
+// import LAK from '@/assets/ccy/lak.svg'
+// import MMK from '@/assets/ccy/mmk.svg'
+// import MYR from '@/assets/ccy/myr.svg'
+// import PHP from '@/assets/ccy/php.svg'
+// import SGD from '@/assets/ccy/sgd.svg'
+// import THB from '@/assets/ccy/thb.svg'
 import USD from '@/assets/ccy/usd.svg'
-import VND from '@/assets/ccy/vnd.svg'
-import EUR from '@/assets/ccy/eur.svg'
-import CZK from '@/assets/ccy/czk.svg'
-import AUD from '@/assets/ccy/aud.svg'
+// import VND from '@/assets/ccy/vnd.svg'
+// import EUR from '@/assets/ccy/eur.svg'
+// import CZK from '@/assets/ccy/czk.svg'
+// import AUD from '@/assets/ccy/aud.svg'
 import { CURRENCY } from 'ts-khqr'
 
 const ccy: Record<string, string> = {
-  [CURRENCY.BND]: BND,
-  [CURRENCY.CNY]: CNY,
-  [CURRENCY.IDR]: IDR,
-  [CURRENCY.INR]: INR,
+  // [CURRENCY.BND]: BND,
+  // [CURRENCY.CNY]: CNY,
+  // [CURRENCY.IDR]: IDR,
+  // [CURRENCY.INR]: INR,
   [CURRENCY.KHR]: KHR,
-  [CURRENCY.LAK]: LAK,
-  [CURRENCY.MMK]: MMK,
-  [CURRENCY.MYR]: MYR,
-  [CURRENCY.PHP]: PHP,
-  [CURRENCY.SGD]: SGD,
-  [CURRENCY.THB]: THB,
+  // [CURRENCY.LAK]: LAK,
+  // [CURRENCY.MMK]: MMK,
+  // [CURRENCY.MYR]: MYR,
+  // [CURRENCY.PHP]: PHP,
+  // [CURRENCY.SGD]: SGD,
+  // [CURRENCY.THB]: THB,
   [CURRENCY.USD]: USD,
-  [CURRENCY.VND]: VND,
-  [CURRENCY.EUR]: EUR,
-  [CURRENCY.CZK]: CZK,
-  [CURRENCY.AUD]: AUD,
+  // [CURRENCY.VND]: VND,
+  // [CURRENCY.EUR]: EUR,
+  // [CURRENCY.CZK]: CZK,
+  // [CURRENCY.AUD]: AUD,
 }
 
 const loadImage = (url: string): Promise<HTMLImageElement> => {

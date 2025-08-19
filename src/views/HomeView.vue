@@ -39,7 +39,19 @@ const schema = yup.object({
   languagePreference: yup.string().max(2).label('Language Preference'),
   merchantNameAlternateLanguage: yup.string().max(25).label('Merchant Name Alternate Language'),
   merchantCityAlternateLanguage: yup.string().max(15).label('Merchant City Alternate Language'),
-  upiMerchantAccount: yup.string().max(99).label('UPI Merchant Account')
+  upiMerchantAccount: yup.string().max(99).label('UPI Merchant Account'),
+  merchantCategoryCode: yup
+    .string()
+    .matches(/^\d{4}$/, 'MCC must be exactly 4 digits')
+    .label('Merchant Category Code'),
+  expirationTimestamp: yup
+    .number()
+    .label('Expiration')
+    .when('amount', (amount: any, schema: yup.Schema) =>
+      amount > 0
+        ? schema.required('Expiration is required').positive('Must be positive')
+        : schema.nullable()
+    )
 })
 
 const { defineComponentBinds, handleSubmit, resetForm, errors, meta } = useForm({
@@ -61,7 +73,9 @@ const { defineComponentBinds, handleSubmit, resetForm, errors, meta } = useForm(
     languagePreference: '',
     merchantNameAlternateLanguage: '',
     merchantCityAlternateLanguage: '',
-    upiMerchantAccount: ''
+    upiMerchantAccount: '',
+    merchantCategoryCode: '5999',
+    expirationTimestamp: undefined
   },
   validationSchema: schema
 })
@@ -84,6 +98,8 @@ const languagePreference = defineComponentBinds('languagePreference')
 const merchantNameAlternateLanguage = defineComponentBinds('merchantNameAlternateLanguage')
 const merchantCityAlternateLanguage = defineComponentBinds('merchantCityAlternateLanguage')
 const upiMerchantAccount = defineComponentBinds('upiMerchantAccount')
+const merchantCategoryCode = defineComponentBinds('merchantCategoryCode')
+const expirationTimestamp = defineComponentBinds('expirationTimestamp')
 const ccy = computed(() => currency.value.modelValue)
 
 const onSubmit = handleSubmit(async (values) => {
@@ -114,7 +130,11 @@ const onSubmit = handleSubmit(async (values) => {
         merchantNameAlternateLanguage: values.merchantNameAlternateLanguage,
         merchantCityAlternateLanguage: values.merchantCityAlternateLanguage
       },
-      upiMerchantAccount: values.upiMerchantAccount
+      upiMerchantAccount: values.upiMerchantAccount,
+      merchantCategoryCode: values.merchantCategoryCode,
+      ...(values.amount > 0 && values.expirationTimestamp
+        ? { expirationTimestamp: Date.now() + values.expirationTimestamp * 1000 }
+        : {})
     })
 
     if (result.data) {
@@ -249,21 +269,6 @@ const onClose = () => {
           <div class="field w-full">
             <span class="p-float-label">
               <VInputText
-                id="merchantCity"
-                v-bind="merchantCity"
-                :class="{ 'p-invalid': errors.merchantCity }"
-                class="w-full"
-              />
-              <label for="merchantCity">Merchant City</label>
-            </span>
-            <small id="merchantCity" class="p-error">{{ errors.merchantCity }}</small>
-          </div>
-        </div>
-
-        <div class="flex justify-content-between">
-          <div class="field w-full">
-            <span class="p-float-label">
-              <VInputText
                 id="acquiringBank"
                 v-bind="acquiringBank"
                 :class="{ 'p-invalid': errors.acquiringBank }"
@@ -273,39 +278,87 @@ const onClose = () => {
             </span>
             <small id="acquiringBank" class="p-error">{{ errors.acquiringBank }}</small>
           </div>
+        </div>
+
+        <div class="flex justify-content-between">
+          <div class="field w-full">
+            <span class="p-float-label">
+              <VInputNumber
+                id="amount"
+                v-bind="amount"
+                :minFractionDigits="ccy !== CURRENCY.KHR ? 2 : undefined"
+                :maxFractionDigits="ccy !== CURRENCY.KHR ? 2 : undefined"
+                :class="{ 'p-invalid': errors.amount }"
+                class="w-full"
+              />
+              <label>Amount</label>
+            </span>
+            <small id="amount" class="p-error">{{ errors.amount }}</small>
+          </div>
+          &nbsp;
+          <div class="field w-full">
+            <span class="p-float-label">
+              <VInputNumber
+                id="expirationTimestamp"
+                v-bind="expirationTimestamp"
+                :class="{ 'p-invalid': errors.expirationTimestamp }"
+                class="w-full"
+              />
+              <label>Expired in Seconds</label>
+            </span>
+            <small id="expirationTimestamp" class="p-error">{{ errors.expirationTimestamp }}</small>
+          </div>
+        </div>
+
+        <div class="flex justify-content-between">
+          <div class="field w-full">
+            <span class="p-float-label">
+              <VInputText
+                id="merchantCity"
+                v-bind="merchantCity"
+                :class="{ 'p-invalid': errors.merchantCity }"
+                class="w-full"
+              />
+              <label for="merchantCity">Merchant City</label>
+            </span>
+            <small id="merchantCity" class="p-error">{{ errors.merchantCity }}</small>
+          </div>
           &nbsp;
           <div class="field w-full">
             <span class="p-float-label">
               <VInputText
-                id="upiMerchantAccount"
-                v-bind="upiMerchantAccount"
-                :class="{ 'p-invalid': errors.upiMerchantAccount }"
+                id="merchantCategoryCode"
+                v-bind="merchantCategoryCode"
+                :class="{ 'p-invalid': errors.merchantCategoryCode }"
                 class="w-full"
               />
-              <label for="upiMerchantAccount">UPI Merchant Account</label>
+              <label for="merchantCategoryCode">Merchant Category Code</label>
             </span>
-            <small id="upiMerchantAccount" class="p-error">
-              {{ errors.upiMerchantAccount }}
+            <small id="merchantCategoryCode" class="p-error">
+              {{ errors.merchantCategoryCode }}
             </small>
           </div>
         </div>
 
-        <div class="field">
-          <span class="p-float-label">
-            <VInputNumber
-              id="amount"
-              v-bind="amount"
-              :minFractionDigits="ccy !== CURRENCY.KHR ? 2 : undefined"
-              :maxFractionDigits="ccy !== CURRENCY.KHR ? 2 : undefined"
-              :class="{ 'p-invalid': errors.amount }"
-              class="w-full"
-            />
-            <label>Amount</label>
-          </span>
-          <small id="amount" class="p-error">{{ errors.amount }}</small>
-        </div>
-
         <VAccordion :multiple="true">
+          <VAccordionTab header="UPI Merchant Account">
+            <div class="flex flex-column gap-2 pt-2">
+              <div class="field">
+                <span class="p-float-label">
+                  <VInputText
+                    id="upiMerchantAccount"
+                    v-bind="upiMerchantAccount"
+                    :class="{ 'p-invalid': errors.upiMerchantAccount }"
+                    class="w-full"
+                  />
+                  <label for="upiMerchantAccount">UPI Merchant Account</label>
+                </span>
+                <small id="upiMerchantAccount" class="p-error">
+                  {{ errors.upiMerchantAccount }}
+                </small>
+              </div>
+            </div>
+          </VAccordionTab>
           <VAccordionTab header="Additional Data">
             <div class="flex flex-column gap-2 pt-2">
               <div class="field">
