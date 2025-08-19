@@ -289,7 +289,7 @@ const onClose = () => {
                 :minFractionDigits="ccy !== CURRENCY.KHR ? 2 : undefined"
                 :maxFractionDigits="ccy !== CURRENCY.KHR ? 2 : undefined"
                 :class="{ 'p-invalid': errors.amount }"
-                class="w-full"
+                class="p-fluid w-full"
               />
               <label>Amount</label>
             </span>
@@ -302,9 +302,9 @@ const onClose = () => {
                 id="expirationTimestamp"
                 v-bind="expirationTimestamp"
                 :class="{ 'p-invalid': errors.expirationTimestamp }"
-                class="w-full"
+                class="p-fluid w-full"
               />
-              <label>Expired in Seconds</label>
+              <label>Expiration (seconds)</label>
             </span>
             <small id="expirationTimestamp" class="p-error">{{ errors.expirationTimestamp }}</small>
           </div>
