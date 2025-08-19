@@ -2,6 +2,8 @@
 
 A Simple QR Code Generator for testing QR Payment.
 
+[Demo](https://ishinvin.github.io/khqr-generator/)
+
 ## Project Setup
 
 ```sh
@@ -27,8 +29,9 @@ npm run lint
 ```
 
 ### Deploy
+
 ```sh
 git add dist -f
-git commit -m "some message"       
+git commit -m "some message"
 git subtree push --prefix dist origin gh-pages
 ```
