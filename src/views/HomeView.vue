@@ -9,6 +9,7 @@ import { useToast } from 'primevue/usetoast'
 
 const toast = useToast()
 const khqrFrame = ref('')
+const khqrString = ref('')
 const visible = ref(false)
 const loading = ref(false)
 const tagOptions = Object.entries(TAG)
@@ -145,6 +146,7 @@ const onSubmit = handleSubmit(async (values) => {
         values.accountID
       )
       khqrFrame.value = await qrCanvas.createQR()
+      khqrString.value = result.data.qr
       visible.value = true
     } else if (result.status && result.status.code === 1) {
       toast.add({ severity: 'error', summary: 'Error', detail: result.status.message, life: 3000 })
@@ -167,8 +169,11 @@ const onDownload = () => {
   link.remove()
 }
 
+const onCopyQrString = () => navigator.clipboard.writeText(khqrString.value)
+
 const onClose = () => {
   khqrFrame.value = ''
+  khqrString.value = ''
   visible.value = false
 }
 </script>
@@ -503,11 +508,29 @@ const onClose = () => {
     :draggable="false"
     modal
     header="Get your QR"
-    :style="{ width: '350px' }"
+    :style="{ width: '660px' }"
+    :breakpoints="{ '767px': '350px' }"
   >
-    <div class="flex justify-content-center">
-      <div style="width: 100%">
-        <img :src="khqrFrame" style="max-width: 100%" />
+    <div class="grid m-0 align-items-stretch">
+      <div :class="khqrString ? 'col-12 md:col-6' : 'col-12'">
+        <img :src="khqrFrame" class="w-full border-round" />
+      </div>
+      <div v-if="khqrString" class="col-12 md:col-6 flex">
+        <div class="surface-100 border surface-border border-round p-3 flex flex-column w-full">
+          <div class="flex justify-content-between align-items-center mb-2">
+            <span class="text-xs font-semibold text-color-secondary uppercase">QR String</span>
+            <VButton
+              icon="pi pi-copy"
+              class="p-button-text p-button-sm p-button-primary p-0"
+              @click="onCopyQrString"
+            />
+          </div>
+          <code
+            class="text-xs text-color-secondary"
+            style="word-break: break-all; white-space: pre-wrap"
+            >{{ khqrString }}</code
+          >
+        </div>
       </div>
     </div>
     <template #footer>
