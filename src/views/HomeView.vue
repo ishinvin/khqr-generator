@@ -120,16 +120,16 @@ const onSubmit = handleSubmit(async (values) => {
       amount: values.amount,
       countryCode: values.countryCode,
       additionalData: {
-        mobileNumber: values.mobileNumber,
-        billNumber: values.billNumber,
-        storeLabel: values.storeLabel,
-        terminalLabel: values.terminalLabel,
-        purposeOfTransaction: values.purposeOfTransaction
+        mobileNumber: values.mobileNumber || undefined,
+        billNumber: values.billNumber || undefined,
+        storeLabel: values.storeLabel || undefined,
+        terminalLabel: values.terminalLabel || undefined,
+        purposeOfTransaction: values.purposeOfTransaction || undefined
       },
       languageData: {
-        languagePreference: values.languagePreference,
-        merchantNameAlternateLanguage: values.merchantNameAlternateLanguage,
-        merchantCityAlternateLanguage: values.merchantCityAlternateLanguage
+        languagePreference: values.languagePreference || undefined,
+        merchantNameAlternateLanguage: values.merchantNameAlternateLanguage || undefined,
+        merchantCityAlternateLanguage: values.merchantCityAlternateLanguage || undefined
       },
       upiMerchantAccount: values.upiMerchantAccount,
       merchantCategoryCode: values.merchantCategoryCode,
